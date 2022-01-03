@@ -32,8 +32,8 @@ public class UserController {
 				user.getEmail(), user.getPassword());
 			userRepository.findByBirthAndPhone(
 				user.getBirth(), user.getPhone());
-			userRepository.findByAddress(
-				user.getAddress());
+			userRepository.findByAddressAndName(
+				user.getAddress(), user.getName());
 			
 		if(dbUser != null) {
 			session.setAttribute("user_info", dbUser);

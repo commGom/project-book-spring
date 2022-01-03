@@ -3,7 +3,6 @@ package com.ksa.project.model;
 import lombok.Data;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
