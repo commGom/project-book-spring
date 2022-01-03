@@ -10,8 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserRepository userRepository;
@@ -19,10 +26,21 @@ public class UserController {
     @Autowired
 	HttpSession session;
 
+	    // 아이디 체크
+		@PostMapping("/emailCheck")
+		@ResponseBody
+		public String emailCheck(@RequestParam("email") String email, User user){
+			log.info("userEmailCheck 진입");
+			log.info("전달받은 email:"+email);
+			User dbUser = 
+			userRepository.findByEmail(user.getEmail());
+			log.info("확인 결과:"+dbUser);
+			return "/emailCheck";
+		}
 
     @GetMapping("/signin")
 	public String signin() {
-		return "signin";
+		return "user/signin";
 	}
 
 	@PostMapping("/signin")
@@ -30,10 +48,6 @@ public class UserController {
 		User dbUser = 
 			userRepository.findByEmailAndPassword(
 				user.getEmail(), user.getPassword());
-			userRepository.findByBirthAndPhone(
-				user.getBirth(), user.getPhone());
-			userRepository.findByAddressAndName(
-				user.getAddress(), user.getName());
 			
 		if(dbUser != null) {
 			session.setAttribute("user_info", dbUser);
@@ -49,7 +63,7 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup() {
-        return "signup";
+        return "user/signup";
     }
 
     @PostMapping("/signup")

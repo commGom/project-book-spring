@@ -1,7 +1,5 @@
 package com.ksa.project.repository;
 
-import java.time.LocalDate;
-
 import com.ksa.project.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<User, Long> {
    
     public User findByEmailAndPassword(String email, String password);
-    public User findByBirthAndPhone(LocalDate birth, String phone);
-    public User findByAddressAndName(String address, String name);
-
+    // 아이디 중복 체크
+    public User findByEmail(String email);
 };
