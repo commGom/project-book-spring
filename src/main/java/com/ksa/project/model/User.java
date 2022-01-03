@@ -20,7 +20,6 @@ public class User {
     private String email;
     private String password;
     private String name;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
     private String phone;
