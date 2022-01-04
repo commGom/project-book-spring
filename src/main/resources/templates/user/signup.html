@@ -1,35 +1,87 @@
-<div class="container mt-5">
-    <div class="row">
-        <form method="post" action="/signup">
-            <div class="mb-3">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email" name="email">
-            </div>
-            <span class="id_input_re_1">사용 가능한 이메일입니다.</span>
-            <span class="id_input_re_2">이메일이 이미 존재합니다.</span>
-            <div class="mb-3">
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <form action="/user/signup" method="post">
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <button class="emailCheck" type="button" id="emailCheck" onclick="fn_emailCheck();" value="N">중복확인
+            </button>
+            <div>
                 <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" id="password" name="password">
             </div>
-            <div class="mb-3">
+            <div>
                 <label for="birth">Birth:</label>
-                <input type="text" class="form-control" id="birth" name="birth">
+                <input type="date" id="birth" name="birth">
             </div>
-            <div class="mb-3">
+            <div>
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <input type="text" id="name" name="name">
+                </button>
             </div>
-            <div class="mb-3">
+            <div>
                 <label for="phone">Phone:</label>
-                <input type="password" class="form-control" id="phone" name="phone">
+                <input type="password" id="phone" name="phone">
             </div>
-            <div class="mb-3">
+            <div>
                 <label for="address">Address:</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <input type="text" id="address" name="address">
             </div>
-            <div class="d-grid gap-2">
-                <button class="btn btn-primary" id="signup">Sign Up</button>
+            <div>
+                <button class="signup" type="button" id="signup" onclick="signup_run();" value="N">회원가입</button>
             </div>
-        </form>
-    </div>
-</div>
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ 
+    <script>
+        function fn_emailCheck() {
+            const email = document.querySelector('[name=email]').value;
+            const formData = new FormData();
+            formData.append('email', email);
+
+            axios({
+                url: '/user/emailCheck',
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                console.log(res.data);
+
+                if(res.data.email != null && res.data.email != '') {
+                    // 아이디 중복(알림)
+                    alert('중복된 아이디가 있습니다.');
+                } else {
+                    alert('생성가능');
+                }
+            });
+        }
+
+        function signup_run() {
+            const email = document.querySelector('[name=email]').value;
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', document.querySelector('[name=password]').value);
+            formData.append('birth', document.querySelector('[name=birth]').value);
+            formData.append('name', document.querySelector('[name=name]').value);
+            formData.append('phone', document.querySelector('[name=phone]').value);
+            formData.append('address', document.querySelector('[name=address]').value);
+            axios({
+                url:'/user/signup',
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                console.log(res.data);
+
+                if(res.data.code != 200) {
+                    alert('회원가입 승인불가');
+                } else {
+                    alert('회원가입 완료');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
