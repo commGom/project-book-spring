@@ -1,0 +1,8 @@
+--이메일 중복 체크 --
+<select id="emailCheck"
+parameterType="com.mygg.mygg.dto.MemberDTO"
+resultType="int">
+    SELECT COUNT(*)
+    FROM member
+    WHERE email = #{email}
+</select>
