@@ -26,17 +26,17 @@ public class UserController {
     @Autowired
 	HttpSession session;
 
-	    // 아이디 체크
-		@PostMapping("/emailCheck")
-		@ResponseBody
-		public String emailCheck(@RequestParam("email") String email, User user){
-			log.info("userEmailCheck 진입");
-			log.info("전달받은 email:"+email);
-			User dbUser = 
-			userRepository.findByEmail(user.getEmail());
-			log.info("확인 결과:"+dbUser);
-			return "/emailCheck";
-		}
+	// 아이디 체크
+	@PostMapping("/emailCheck")
+	@ResponseBody
+	public User emailCheck(@RequestParam("email") String email, User user){
+		log.info("userEmailCheck 진입");
+		log.info("전달받은 email:"+email);
+		User dbUser = 
+				userRepository.findByEmail(user.getEmail());
+		log.info("확인 결과:"+dbUser);
+		return dbUser;
+	}
 
     @GetMapping("/signin")
 	public String signin() {
@@ -67,8 +67,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signupPost(@ModelAttribute User user) {
-        userRepository.save(user);
+    public String signupPost (@ModelAttribute User user) {
+		userRepository.save(user);
         return "redirect:/";
     }
 };
