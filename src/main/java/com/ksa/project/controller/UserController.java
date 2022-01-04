@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.ksa.project.model.User;
 import com.ksa.project.repository.UserRepository;
 
@@ -48,15 +47,23 @@ public class UserController {
 	}
 
 	@PostMapping("/signin")
-	public String signinPost(@ModelAttribute User user) {
+	@ResponseBody
+	public Map<String, Object> signinPost(@ModelAttribute User user) {
+		System.out.println(user);
+		Map<String, Object> result = new HashMap<>();
 		User dbUser = 
 			userRepository.findByEmailAndPassword(
 				user.getEmail(), user.getPassword());
 			
 		if(dbUser != null) {
 			session.setAttribute("user_info", dbUser);
+			System.out.println("로그인 성공");
+			result.put("msg", "로그인 성공");
+		} else {
+			System.out.println("로그인 실패");
+			result.put("msg", "로그인 실패");
 		}
-		return "redirect:/";
+		return result;
 	}
 
 	@GetMapping("/signout")

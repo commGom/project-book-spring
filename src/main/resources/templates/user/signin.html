@@ -6,28 +6,25 @@
    <form method='post'>
        Email : <input type='text' name='email'><br>
        Password : <input type='password' name='password'><br>
-       <button class="Signin" type="button" id="Signin" onclick="Signin();">Signin
-    </button>
+       <button class="signin" type="button" id="signin" onclick="signin_run();" value="N">로그인</button>
    </form>
    
    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  
    <script>
-       function Signin() {
+       function signin_run() {
            const formData = new FormData();
-           formData.append('email', email);
-           formData.append('password', password)
+           formData.append('email', document.querySelector('[name=email]').value);
+           formData.append('password', document.querySelector('[name=password]').value);
            axios({
                url: '/user/signin',
                method: 'post',
                data: formData
            }).then((res) => {
                console.log(res.data);
-               if(res.data.code === 200) {
-                   // 로그인 성공
+
+               if(res.data.msg !== "로그인 실패") {
                    alert('로그인 되었습니다.');
-                   // JWT와 같은 토큰값을 저장
-                   sessionStorage.setItem("token", 1234);
                } else {
                    alert('이메일과 비밀번호를 확인해주세요.');
                }
