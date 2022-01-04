@@ -1,6 +1,8 @@
 package com.ksa.project.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,9 +15,9 @@ public class BookDiary {
     @Id @GeneratedValue
     private long id;
     private String title;
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime writtenDate;
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime lastUpdatedDate;
     private String content;
     private String thought;

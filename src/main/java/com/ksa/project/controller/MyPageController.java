@@ -1,6 +1,9 @@
 package com.ksa.project.controller;
 
+import com.ksa.project.model.Book;
+import com.ksa.project.model.BookDiary;
 import com.ksa.project.model.User;
+import com.ksa.project.repository.BookRepository;
 import com.ksa.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,8 @@ import java.util.Map;
 public class MyPageController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     //UserInfo update
     @GetMapping({"/userProfile","/userUpdate"})
@@ -40,4 +45,24 @@ public class MyPageController {
         }
         return map;
     }
+
+    @GetMapping("/diary/write")
+    public Book writeDiary(Long bookId,String userId, String userPassword ){
+        bookId=1L;
+        Book book=bookRepository.findById(bookId).get();
+
+        return book;
+
+    }
+
+    @PostMapping("/diary/write")
+    public Map<String,Object> writeDiary(Long bookId, String userId, String userPassword, BookDiary bookDiary){
+        HashMap<String,Object> map=new HashMap<>();
+        bookId=1L;
+        Book book=bookRepository.findById(bookId).get();
+        User findUser = userRepository.findByEmailAndPassword(userId, userPassword);
+        bookDiary.setUser(findUser);
+        return map;
+    }
+
 }
