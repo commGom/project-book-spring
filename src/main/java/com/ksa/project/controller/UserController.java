@@ -1,7 +1,11 @@
 package com.ksa.project.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.ksa.project.model.User;
 import com.ksa.project.repository.UserRepository;
 
@@ -67,8 +71,24 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signupPost (@ModelAttribute User user) {
-		userRepository.save(user);
-        return "redirect:/";
+	@ResponseBody
+    public Map<String, Object> signupPost (@ModelAttribute User user) {
+		System.out.println(user);
+		Map<String, Object> result = new HashMap<>();
+		User dbUser = 
+				userRepository.findByEmail(user.getEmail());
+		log.info("확인 결과:"+dbUser);
+		if (dbUser != null) {
+			System.out.println("회원가입 실패");
+			result.put("msg", "회원가입 실패");
+			result.put("code", 201);
+		} else {
+			userRepository.save(user);
+			System.out.println("회원가입 성공");
+			result.put("msg", "회원가입 성공");
+			result.put("code", 200);
+		}
+		return result;
+
     }
 };
