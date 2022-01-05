@@ -7,6 +7,7 @@ import com.ksa.project.model.User;
 import com.ksa.project.repository.BookRepository;
 import com.ksa.project.repository.OrdersRepository;
 import com.ksa.project.repository.UserRepository;
+import com.ksa.project.service.BookDiaryService;
 import com.ksa.project.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,14 @@ import java.util.Map;
 public class MyPageController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private BookDiaryService bookDiaryService;
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private BookRepository bookRepository;
-    @Autowired
-    private OrdersRepository ordersRepository;
+
 
     //UserInfo update
     @PostMapping({"/userProfile"})
