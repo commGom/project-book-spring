@@ -1,8 +1,5 @@
 package com.ksa.project.controller;
 
-import com.ksa.project.repository.OrdersBookRepository;
-import com.ksa.project.repository.OrdersRepository;
-import com.ksa.project.repository.UserRepository;
 import com.ksa.project.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

@@ -2,13 +2,17 @@ package com.ksa.project.controller;
 
 import com.ksa.project.model.Book;
 import com.ksa.project.model.BookDiary;
+import com.ksa.project.model.Orders;
 import com.ksa.project.model.User;
 import com.ksa.project.repository.BookRepository;
+import com.ksa.project.repository.OrdersRepository;
 import com.ksa.project.repository.UserRepository;
+import com.ksa.project.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,13 +20,19 @@ import java.util.Map;
 @CrossOrigin
 public class MyPageController {
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private OrdersRepository ordersRepository;
 
     //UserInfo update
-    @GetMapping({"/userProfile","/userUpdate"})
+    @PostMapping({"/userProfile"})
     public User editUser(String userId, String userPassword){
+        System.out.println(userId+userPassword);
         User findUser = userRepository.findByEmailAndPassword(userId, userPassword);
         return findUser;
     }
@@ -34,14 +44,17 @@ public class MyPageController {
         HashMap<String,Object> map=new HashMap<>();
         if (findUser!=null){
             findUser.setPassword(user.getPassword());
-            findUser.setAddress(user.getAddress());
+            findUser.setAddress1(user.getAddress1());
+            findUser.setAddress2(user.getAddress2());
+            findUser.setPostcode(user.getPostcode());
             findUser.setPhone(user.getPhone());
             map.put("result","success");
-            map.put("code","200");
+            map.put("code",200);
             map.put("user",findUser);
             userRepository.save(findUser);
         }else{
             map.put("result","fail to update user's information");
+            map.put("code",400);
         }
         return map;
     }
@@ -63,6 +76,11 @@ public class MyPageController {
         User findUser = userRepository.findByEmailAndPassword(userId, userPassword);
         bookDiary.setUser(findUser);
         return map;
+    }
+
+    @PostMapping("/orders/list")
+    public List<Orders> showOrderList(String userId, String userPassword){
+        return orderService.showOrderList(userId,userPassword);
     }
 
 }
