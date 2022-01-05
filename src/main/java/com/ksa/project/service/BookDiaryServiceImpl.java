@@ -33,8 +33,8 @@ public class BookDiaryServiceImpl implements BookDiaryService{
     }
 
     @Override
-    public List<BookDiary> diaryList(Long user_id) {
-        User findUser = userRepository.findById(user_id).get();
+    public List<BookDiary> diaryList(Long userId) {
+        User findUser = userRepository.findById(userId).get();
 
         List<BookDiary> diaryList = bookDiaryRepository.findByUser(findUser);
         return diaryList;

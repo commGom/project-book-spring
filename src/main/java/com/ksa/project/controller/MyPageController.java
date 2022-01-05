@@ -80,6 +80,11 @@ public class MyPageController {
         return map;
     }
 
+    @PostMapping("/diary/list")
+    public List<BookDiary> bookDiaryList(Long userId){
+        return bookDiaryService.diaryList(userId);
+    }
+
     @PostMapping("/orders/list")
     public List<Orders> showOrderList(String userId, String userPassword){
         return orderService.showOrderList(userId,userPassword);
