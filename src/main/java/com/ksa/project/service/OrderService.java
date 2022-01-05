@@ -1,8 +1,12 @@
 package com.ksa.project.service;
 
+import com.ksa.project.model.Orders;
 import com.ksa.project.model.User;
 
+import java.util.List;
+
 public interface OrderService {
-    //책 주문하기 (구매(결제) 하기 전 order_state=결제대기)
-    void Orders(String userId, String userPassword, User user);
+
+    void order(String userId, String userPassword, Long item_id, int count);    //책 주문하기(수량 결정가능)
+    List<Orders> showOrderList(String userId, String userPassword);             //결제한 책 목록
 }

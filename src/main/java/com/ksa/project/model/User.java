@@ -2,17 +2,22 @@ package com.ksa.project.model;
 
 import lombok.Data;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 public class User {
     @Id @GeneratedValue
     private long id;
@@ -24,7 +29,11 @@ public class User {
     private LocalDate birth;
     
     private String phone;
-    private String address;
+    private String address1;
+    private String address2;
+    private int postcode;
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+
 };
