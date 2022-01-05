@@ -7,11 +7,7 @@ import org.springframework.ui.Model;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,5 +27,9 @@ public class MainController {
       List<Book> result = temp.subList(0, count);
       return result;
   }
-  
+  @GetMapping("/mainList/{search}")
+    public List<Book> searchBook(@PathVariable("search") String search){
+      List<Book> booksBySearch = bookRepository.findByNameContaining(search);
+      return booksBySearch;
+  }
 }
