@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/book")
@@ -19,9 +20,16 @@ public class BookController {
     @Autowired
     BookRepository bookRepository;
 
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public List<Book> showAllBookList(Model model, @PathVariable("category") String category){
         List<Book> booklist = bookRepository.findByCategory(category);
         return booklist;
     }
+    @GetMapping("/detail/{bookid}")
+    public Book showBook(Model model, @PathVariable("bookid") Long bookid){
+        Optional<Book> book = bookRepository.findById(bookid);
+        return book.get();
+    }
+
+    
 }

@@ -34,13 +34,37 @@ public class UserController {
 	public String findEmail() {
 		return "/user/findEmail";
 	}
+
 	@PostMapping("/findEmail")
 	@ResponseBody
-	public Map<String, Object> findEmailPost(@ModelAttribute User user, String email) {
+	public Map<String, Object> findEmailPost(@ModelAttribute User user) {
 		Map<String, Object>  result = new HashMap<>();
 		System.out.println(user);
 		
 		User dbUser = userRepository.findByNameAndPhone(user.getName(), user.getPhone());
+
+			if (dbUser == null ) {
+				result.put("msg", "가입된 정보가 없습니다.");
+				result.put("code", 201);
+			} else {
+				result.put("msg", dbUser.getEmail());
+				result.put("code", 200);
+			}
+			return result;
+	}
+	// 비밀번호 찾기
+	@GetMapping("/findPassword")
+	public String findPassword() {
+		return "/user/findPassword";
+	}
+
+	@PostMapping("/findPassword")
+	@ResponseBody
+	public Map<String, Object> findPasswordPost(@ModelAttribute User user) {
+		Map<String, Object>  result = new HashMap<>();
+		System.out.println(user);
+		
+		User dbUser = userRepository.findByEmail(user.getEmail());
 
 			if (dbUser == null ) {
 				result.put("msg", "가입된 정보가 없습니다.");
