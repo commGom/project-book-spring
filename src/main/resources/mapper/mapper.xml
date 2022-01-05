@@ -6,7 +6,7 @@ resultType="int">
     FROM member
     WHERE email = #{email}
 </select>
-<!-- 이메일 찾기 -->
-<select id="find_email" parameterType="String" resultType="String">
-	select id from member where email = #{email}
+<!-- 비밀번호 찾기 -->
+<select id="findPassword" parameterType="String" resultType="String">
+	select id from user where password = #{password}
 </select>
