@@ -18,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@Data
 public class User {
     @Id @GeneratedValue
     private long id;
