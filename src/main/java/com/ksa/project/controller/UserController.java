@@ -23,25 +23,47 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-    @Autowired
+	@Autowired
 	HttpSession session;
+
+	// 이메일 찾기
+	@GetMapping("/findEmail")
+	public String findEmail() {
+		return "/user/findEmail";
+	}
+	@PostMapping("/findEmail")
+	@ResponseBody
+	public Map<String, Object> findEmailPost(@ModelAttribute User user, String email) {
+		Map<String, Object>  result = new HashMap<>();
+		System.out.println(user);
+		
+		User dbUser = userRepository.findByNameAndPhone(user.getName(), user.getPhone());
+
+			if (dbUser == null ) {
+				result.put("msg", "가입된 정보가 없습니다.");
+				result.put("code", 201);
+			} else {
+				result.put("msg", dbUser.getEmail());
+				result.put("code", 200);
+			}
+			return result;
+	}
 
 	// 아이디 체크
 	@PostMapping("/emailCheck")
 	@ResponseBody
-	public User emailCheck(@RequestParam("email") String email, User user){
+	public User emailCheck(@RequestParam("email") String email, User user) {
 		log.info("userEmailCheck 진입");
-		log.info("전달받은 email:"+email);
-		User dbUser = 
-				userRepository.findByEmail(user.getEmail());
-		log.info("확인 결과:"+dbUser);
+		log.info("전달받은 email:" + email);
+		User dbUser = userRepository.findByEmail(user.getEmail());
+		log.info("확인 결과:" + dbUser);
 		return dbUser;
 	}
 
-    @GetMapping("/signin")
+	@GetMapping("/signin")
 	public String signin() {
 		return "user/signin";
 	}
@@ -51,11 +73,10 @@ public class UserController {
 	public Map<String, Object> signinPost(@ModelAttribute User user) {
 		System.out.println(user);
 		Map<String, Object> result = new HashMap<>();
-		User dbUser = 
-			userRepository.findByEmailAndPassword(
+		User dbUser = userRepository.findByEmailAndPassword(
 				user.getEmail(), user.getPassword());
-			
-		if(dbUser != null) {
+
+		if (dbUser != null) {
 			session.setAttribute("user_info", dbUser);
 			System.out.println("로그인 성공");
 			result.put("msg", "로그인 성공");
@@ -72,19 +93,18 @@ public class UserController {
 		return "redirect:/";
 	}
 
-    @GetMapping("/signup")
-    public String signup() {
-        return "user/signup";
-    }
+	@GetMapping("/signup")
+	public String signup() {
+		return "user/signup";
+	}
 
-    @PostMapping("/signup")
+	@PostMapping("/signup")
 	@ResponseBody
-    public Map<String, Object> signupPost (@ModelAttribute User user) {
+	public Map<String, Object> signupPost(@ModelAttribute User user) {
 		System.out.println(user);
 		Map<String, Object> result = new HashMap<>();
-		User dbUser = 
-				userRepository.findByEmail(user.getEmail());
-		log.info("확인 결과:"+dbUser);
+		User dbUser = userRepository.findByEmail(user.getEmail());
+		log.info("확인 결과:" + dbUser);
 		if (dbUser != null) {
 			System.out.println("회원가입 실패");
 			result.put("msg", "회원가입 실패");
@@ -97,5 +117,5 @@ public class UserController {
 		}
 		return result;
 
-    }
+	}
 };
