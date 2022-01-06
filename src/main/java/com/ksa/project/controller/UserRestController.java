@@ -95,7 +95,7 @@ public class UserRestController {
 			map.put("msg", dbUser.getName()+"님❤\n 안녕하세요!️");
 		} else {
 			map.put("code",400);
-			map.put("msg", "잘못 된 정보 입력, 로그인 실패");
+			map.put("msg", "잘못된 정보 입력, 로그인 실패");
 		}
 		return map;
 	}
