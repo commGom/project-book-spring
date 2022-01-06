@@ -66,7 +66,8 @@ class BookDiaryServiceTest {
     @Test
     void deleteDiary() {
         Long diaryId=1L;
-        bookDiaryService.deleteDiary(diaryId);
+        Long userId=4L;
+        bookDiaryService.deleteDiary(diaryId,userId);
     }
 
     @Test
