@@ -61,22 +61,35 @@ public class MyPageController {
         return map;
     }
 
-    @GetMapping("/diary/write")
-    public Book writeDiary(Long bookId,String userId, String userPassword ){
-        bookId=1L;
-        Book book=bookRepository.findById(bookId).get();
-
-        return book;
-
-    }
 
     @PostMapping("/diary/write")
-    public Map<String,Object> writeDiary(Long bookId, String userId, String userPassword, BookDiary bookDiary){
+    public Map<String,Object> writeDiary(Long bookId, Long userId, BookDiary bookDiary){
         HashMap<String,Object> map=new HashMap<>();
-        bookId=1L;
-        Book book=bookRepository.findById(bookId).get();
-        User findUser = userRepository.findByEmailAndPassword(userId, userPassword);
-        bookDiary.setUser(findUser);
+        System.out.println(bookId+":"+userId+""+bookDiary.getTitle());
+        BookDiary saveBookDiary = bookDiaryService.writeDiary(userId, bookId, bookDiary);
+        if (saveBookDiary!=null){
+            map.put("code",200);
+            map.put("msg","작성 성공");
+            map.put("saveInfo",saveBookDiary);
+        }else{
+            map.put("code",400);
+            map.put("msg","작성 실패");
+        }
+        return map;
+    }
+
+    @PostMapping("/diary/update")
+    public Map<String,Object> updateDiary(BookDiary bookDiary){
+        HashMap<String,Object> map=new HashMap<>();
+        BookDiary changeBookDiary = bookDiaryService.updateDiary(bookDiary);
+        if (changeBookDiary!=null){
+            map.put("code",200);
+            map.put("msg","수정 성공");
+            map.put("saveInfo",changeBookDiary);
+        }else{
+            map.put("code",400);
+            map.put("msg","작성 실패");
+        }
         return map;
     }
 
@@ -84,6 +97,23 @@ public class MyPageController {
     public List<BookDiary> bookDiaryList(Long userId){
         return bookDiaryService.diaryList(userId);
     }
+
+    @GetMapping("/diary/{id}")
+    public BookDiary bookDiaryDetail(@PathVariable Long id){
+        return bookDiaryService.diaryDetail(id);
+    }
+
+    @GetMapping("/diary/delete")
+    public Map<String,Object> deleteBookDiary(Long id,@RequestParam Long userId){
+        Map<String, Object> map = new HashMap<>();
+        List<BookDiary> bookDiaries = bookDiaryService.deleteDiary(id, userId);
+        //삭제 후 BookDiary의 리스트를 반환
+        map.put("bookDiary",bookDiaries);
+        map.put("code",200);
+        map.put("msg",id+"번 글이 삭제되었습니다.");
+        return map;
+    }
+
 
     @PostMapping("/orders/list")
     public List<Orders> showOrderList(String userId, String userPassword){

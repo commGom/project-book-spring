@@ -21,6 +21,7 @@ public class BookDiaryServiceImpl implements BookDiaryService{
     @Autowired
     private BookDiaryRepository bookDiaryRepository;
 
+    //독서노트 작성하기
     @Override
     public BookDiary writeDiary(Long user_id, Long book_id, BookDiary bookDiary) {
         User findUser = userRepository.findById(user_id).get();
@@ -32,25 +33,33 @@ public class BookDiaryServiceImpl implements BookDiaryService{
         return saveDiary;
     }
 
+    //독서 노트 리스트
     @Override
     public List<BookDiary> diaryList(Long userId) {
         User findUser = userRepository.findById(userId).get();
-
+//        findAll(Sort.by(Sort.Direction.DESC, "id"));
         List<BookDiary> diaryList = bookDiaryRepository.findByUser(findUser);
         return diaryList;
     }
 
+    //독서 노트 상세 내용
     @Override
     public BookDiary diaryDetail(Long id) {
         BookDiary bookDiary = bookDiaryRepository.findById(id).get();
         return bookDiary;
     }
 
+    //독서 노트 삭제
     @Override
-    public void deleteDiary(Long id) {
+    public List<BookDiary> deleteDiary(Long id,Long userId) {
         bookDiaryRepository.deleteById(id);
+        //삭제 후 BookDiary의 리스트를 반환
+        User findUser = userRepository.findById(userId).get();
+        return bookDiaryRepository.findByUser(findUser);
+
     }
 
+    //독서 노트 수정
     @Override
     public BookDiary updateDiary(BookDiary bookDiary) {
         BookDiary findDiary = bookDiaryRepository.findById(bookDiary.getId()).get();

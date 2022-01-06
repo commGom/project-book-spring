@@ -30,9 +30,8 @@ public class Orders {
     private Book book;
 
 
-    public static Orders createOrders(User user, Book book, int count){
+    public static Orders createOrders(Book book, int count){
         Orders orders=new Orders();
-        orders.setUser(user);
         orders.setOrderCount(count);
         orders.setBook(book);
         orders.setOrderPrice(count*book.getPrice());

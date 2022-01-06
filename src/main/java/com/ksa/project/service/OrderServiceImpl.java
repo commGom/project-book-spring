@@ -24,13 +24,15 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
-    public void order(String userId, String userPassword, Long book_id, int count) {
+    public void order(String userId, String userPassword, Long bookId, int count) {
         //엔티티 조회 (회원확인 후 회원엔티티, 책번호로 책엔티티 조회)
         User findUser = userRepository.findByEmailAndPassword(userId, userPassword);
-        Book orderedBook = bookRepository.findById(book_id).get();
+        Book orderedBook = bookRepository.findById(bookId).get();
 
         //주문 생성
-        Orders orders = Orders.createOrders(findUser, orderedBook, count);
+        Orders orders = Orders.createOrders(orderedBook, count);
+        orders.setUser(findUser);
+        orders.setOrderAddress(findUser.getAddress1()+" "+findUser.getAddress2());
         ordersRepository.save(orders);
     }
 
