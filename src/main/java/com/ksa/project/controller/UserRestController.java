@@ -101,35 +101,35 @@ public class UserRestController {
 		return map;
 	}
 
-//	@GetMapping("/signout")
-//	public String signout() {
-//		return "redirect:/";
-//	}
-//
-//	@GetMapping("/signup")
-//	public String signup() {
-//		return "user/signup";
-//	}
-//
-//	@PostMapping("/signup")
-//	@ResponseBody
-//	public Map<String, Object> signupPost(@ModelAttribute User user) {
-//		System.out.println(user);
-//		Map<String, Object> result = new HashMap<>();
-//		User dbUser = userRepository.findByEmail(user.getEmail());
-//		if (dbUser != null) {
-//			System.out.println("회원가입 실패");
-//			result.put("msg", "회원가입 실패");
-//			result.put("code", 201);
-//		} else {
-//			userRepository.save(user);
-//			System.out.println("회원가입 성공");
-//			result.put("msg", "회원가입 성공");
-//			result.put("code", 200);
-//		}
-//		return result;
-//
-//	}
+	//	@GetMapping("/signout")
+	//	public String signout() {
+	//		return "redirect:/";
+	//	}
+	//
+	@GetMapping("/signup")
+	public String signup() {
+		return "user/signup";
+	}
+
+	@PostMapping("/signup")
+	@ResponseBody
+	public Map<String, Object> signupPost(@ModelAttribute User user) {
+		System.out.println(user);
+		Map<String, Object> result = new HashMap<>();
+		User dbUser = userRepository.findByEmail(user.getEmail());
+		if (dbUser != null) {
+			System.out.println("회원가입 실패");
+			result.put("msg", "🤦‍♂️회원가입 실패🤦‍♂️");
+			result.put("code", 201);
+		} else {
+			userRepository.save(user);
+			System.out.println("회원가입 성공");
+			result.put("msg", "👊회원가입 성공👊");
+			result.put("code", 200);
+		}
+		return result;
+
+	}
 
 	@PostMapping("/quitUser")
 	public Map<String,Object> quitUser(Long userId){

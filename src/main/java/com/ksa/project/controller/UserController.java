@@ -131,12 +131,12 @@ public class UserController {
 		log.info("확인 결과:" + dbUser);
 		if (dbUser != null) {
 			System.out.println("회원가입 실패");
-			result.put("msg", "회원가입 실패");
+			result.put("msg", "🤦‍♂️회원가입 실패🤦‍♂️");
 			result.put("code", 201);
 		} else {
 			userRepository.save(user);
 			System.out.println("회원가입 성공");
-			result.put("msg", "회원가입 성공");
+			result.put("msg", "👊회원가입 성공👊");
 			result.put("code", 200);
 		}
 		return result;
