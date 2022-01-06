@@ -30,9 +30,8 @@ public class OrderServiceImpl implements OrderService{
         Book orderedBook = bookRepository.findById(bookId).get();
 
         //주문 생성
-        Orders orders = Orders.createOrders(orderedBook, count);
-        orders.setUser(findUser);
-        orders.setOrderAddress(findUser.getAddress1()+" "+findUser.getAddress2());
+        Orders orders = Orders.createOrders(findUser,orderedBook, count);
+
         ordersRepository.save(orders);
     }
 

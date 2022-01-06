@@ -1,5 +1,6 @@
 package com.ksa.project.service;
 
+import com.ksa.project.dto.PageDTO;
 import com.ksa.project.model.Book;
 import com.ksa.project.model.BookDiary;
 import com.ksa.project.model.User;
@@ -7,10 +8,14 @@ import com.ksa.project.repository.BookDiaryRepository;
 import com.ksa.project.repository.BookRepository;
 import com.ksa.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.awt.print.Pageable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Service
 public class BookDiaryServiceImpl implements BookDiaryService{
@@ -68,5 +73,37 @@ public class BookDiaryServiceImpl implements BookDiaryService{
         findDiary.setTitle(bookDiary.getTitle());
         BookDiary save = bookDiaryRepository.save(findDiary);
         return save;
+    }
+
+    @Override
+    public Map<String,Object> diaryListWithPaging(Long userId, int page, int pageSize) {
+        User findUser = userRepository.findById(userId).get();
+        List<BookDiary> totalBookListByUser = bookDiaryRepository.findByUser(findUser);
+        PageDTO pageDTO=PageDTO.createPageDTOwithPageSize(page,pageSize,totalBookListByUser.size());
+        PageRequest pageRequest = pageDTO.createPageRequest();
+
+        //페이징 처리한 페이지 리스트
+        List<BookDiary> diaryList = bookDiaryRepository.findByUser(findUser, pageRequest).getContent();
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("diaryList",diaryList);
+        map.put("pageInfo",pageDTO);
+        return map;
+    }
+
+    @Override
+    public Map<String,Object> diaryListOrderByLastUpdateWithPaging(Long userId, int page, int pageSize) {
+        User findUser = userRepository.findById(userId).get();
+        List<BookDiary> totalBookListByUser = bookDiaryRepository.findByUser(findUser);
+        PageDTO pageDTO=PageDTO.createPageDTOwithPageSize(page,pageSize,totalBookListByUser.size());
+        PageRequest pageRequest = pageDTO.createPageRequest();
+
+        //페이징 처리한 페이지 리스트
+        List<BookDiary> diaryList = bookDiaryRepository.findByUserOrderByLastUpdatedDateDesc(findUser, pageRequest).getContent();
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("diaryList",diaryList);
+        map.put("pageInfo",pageDTO);
+        return map;
     }
 }

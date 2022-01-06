@@ -10,8 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookDiaryRepositoryTest {
     @Autowired
     BookDiaryRepository bookDiaryRepository;
+
     @Test
     public void saveOneDiary(){
         bookDiaryRepository.findAll();
     }
+
+
 }
