@@ -103,10 +103,12 @@ public class MyPageController {
         return bookDiaryService.diaryDetail(id);
     }
 
-    @DeleteMapping("/diary/{id}")
-    public Map<String,Object> deleteBookDiary(@PathVariable Long id){
+    @GetMapping("/diary/delete")
+    public Map<String,Object> deleteBookDiary(Long id,@RequestParam Long userId){
         Map<String, Object> map = new HashMap<>();
-        bookDiaryService.deleteDiary(id);
+        List<BookDiary> bookDiaries = bookDiaryService.deleteDiary(id, userId);
+        //삭제 후 BookDiary의 리스트를 반환
+        map.put("bookDiary",bookDiaries);
         map.put("code",200);
         map.put("msg",id+"번 글이 삭제되었습니다.");
         return map;

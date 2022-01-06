@@ -12,7 +12,7 @@ public interface BookDiaryService {
     //다이어리 상세 조회
     BookDiary diaryDetail(Long id);
     //다이어리 삭제
-    void deleteDiary(Long id);
+    List<BookDiary> deleteDiary(Long id,Long userId);
     //다이어리 수정
     BookDiary updateDiary(BookDiary bookDiary);
 }
