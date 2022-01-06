@@ -18,7 +18,7 @@ public class UserRestController {
 	@Autowired
 	UserRepository userRepository;
 
-//	// 이메일 찾기
+//	// 이메일 찾기(미완료)
 //	@GetMapping("/findEmail")
 //	public String findEmail() {
 //		return "/user/findEmail";
