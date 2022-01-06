@@ -35,6 +35,7 @@ public class Orders {
         orders.setUser(user);
         orders.setOrderCount(count);
         orders.setBook(book);
+        orders.setOrderAddress(user.getAddress1()+" "+user.getAddress2());
         orders.setOrderPrice(count*book.getPrice());
         return orders;
     }

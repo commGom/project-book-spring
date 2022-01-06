@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -100,33 +101,48 @@ public class UserRestController {
 		return map;
 	}
 
-	@GetMapping("/signout")
-	public String signout() {
-		return "redirect:/";
-	}
+//	@GetMapping("/signout")
+//	public String signout() {
+//		return "redirect:/";
+//	}
+//
+//	@GetMapping("/signup")
+//	public String signup() {
+//		return "user/signup";
+//	}
+//
+//	@PostMapping("/signup")
+//	@ResponseBody
+//	public Map<String, Object> signupPost(@ModelAttribute User user) {
+//		System.out.println(user);
+//		Map<String, Object> result = new HashMap<>();
+//		User dbUser = userRepository.findByEmail(user.getEmail());
+//		if (dbUser != null) {
+//			System.out.println("회원가입 실패");
+//			result.put("msg", "회원가입 실패");
+//			result.put("code", 201);
+//		} else {
+//			userRepository.save(user);
+//			System.out.println("회원가입 성공");
+//			result.put("msg", "회원가입 성공");
+//			result.put("code", 200);
+//		}
+//		return result;
+//
+//	}
 
-	@GetMapping("/signup")
-	public String signup() {
-		return "user/signup";
-	}
-
-	@PostMapping("/signup")
-	@ResponseBody
-	public Map<String, Object> signupPost(@ModelAttribute User user) {
-		System.out.println(user);
-		Map<String, Object> result = new HashMap<>();
-		User dbUser = userRepository.findByEmail(user.getEmail());
-		if (dbUser != null) {
-			System.out.println("회원가입 실패");
-			result.put("msg", "회원가입 실패");
-			result.put("code", 201);
-		} else {
-			userRepository.save(user);
-			System.out.println("회원가입 성공");
-			result.put("msg", "회원가입 성공");
-			result.put("code", 200);
+	@PostMapping("/quitUser")
+	public Map<String,Object> quitUser(Long userId){
+		Map<String, Object> map = new HashMap<>();
+		User findUser = userRepository.findById(userId).get();
+		userRepository.delete(findUser);
+		if (userRepository.findById(userId).get()!=null){
+			map.put("msg","회원정보가 삭제되었습니다.");
+			map.put("code",200);
+		}else{
+			map.put("msg","회원 탈퇴 실패");
+			map.put("code",400);
 		}
-		return result;
-
+		return map;
 	}
 };
