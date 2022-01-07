@@ -122,12 +122,12 @@ public class MyPageController {
 
     @GetMapping("/diary/list")
     public Map<String, Object> bookDiaryList(Long userId, int page, @RequestParam(name="pageSize",defaultValue = "5") int pageSize){
-        return bookDiaryService.diaryListWithPaging(userId,page,pageSize);
+        return bookDiaryService.diaryListOrderByLastUpdateWithPaging(userId,page,pageSize);
     }
 
-    @GetMapping("/diary/list/sort")
+    @PostMapping("/diary/list/sort")
     public Map<String, Object> bookDiaryListSorted(Long userId, int page, @RequestParam(name="pageSize",defaultValue = "5") int pageSize){
-        return bookDiaryService.diaryListWithPaging(userId,page,pageSize);
+        return bookDiaryService.diaryListOrderByLastUpdateWithPaging(userId,page,pageSize);
     }
 
 
